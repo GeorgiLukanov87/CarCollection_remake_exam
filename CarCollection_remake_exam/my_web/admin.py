@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from CarCollection_remake_exam.my_web.models import Profile
+
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('id', 'email', 'age',)
