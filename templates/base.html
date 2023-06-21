@@ -1,0 +1,38 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style/style.css' %}"/>
+    <title>CarCollection</title>
+</head>
+
+<body>
+<div id="box">
+    <header>
+        <h1><a class="index-navigation" href="{% url 'index' %}"><span>C</span>ARS <span>C</span>OLLECTION</a></h1>
+        <nav>
+
+            <!-- if the user has not created a profile -->
+            <a href="{% url 'create-profile' %}">Create Profile</a>
+
+            <!-- if the user has created a profile -->
+            <a href="{% url 'catalogue' %}">Catalogue</a>
+            <a href="{% url 'create-car' %}">Create Car</a>
+            <a href="{% url 'details-profile' %}">Profile</a>
+
+        </nav>
+    </header>
+
+    {% block content %}
+        {# information here! #}
+    {% endblock %}
+
+    <footer>
+        &copy;SoftUni Team 2022. All rights reserved.
+    </footer>
+</div>
+</body>
+</html>
