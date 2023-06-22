@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 
-from CarCollection_remake_exam.my_web.forms import ProfileCreateForm, ProfileEditForm, ProfileDeleteForm
+from CarCollection_remake_exam.my_web.forms import ProfileCreateForm, ProfileEditForm, ProfileDeleteForm, CarCreateForm, \
+    CarEditForm
 from CarCollection_remake_exam.my_web.models import Profile, Car
 
 
@@ -21,15 +22,40 @@ def catalogue(request):
 
 
 def create_car(request):
-    return render(request, 'car/car-create.html')
+    if request.method == 'GET':
+        form = CarCreateForm()
+    else:
+        form = CarCreateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('catalogue')
+
+    context = {'form': form, }
+
+    return render(request, 'car/car-create.html', context, )
 
 
 def details_car(request, pk):
-    return render(request, 'car/car-details.html')
+    car = Car.objects.filter(pk=pk).get()
+
+    context = {'car': car, }
+
+    return render(request, 'car/car-details.html', context, )
 
 
 def edit_car(request, pk):
-    return render(request, 'car/car-edit.html')
+    car = Car.objects.filter(pk=pk).get()
+    if request.method == 'GET':
+        form = CarEditForm(instance=car)
+    else:
+        form = CarEditForm(request.POST, instance=car)
+        if form.is_valid():
+            form.save()
+            return redirect('catalogue')
+
+    context = {'car': car, 'form': form, }
+
+    return render(request, 'car/car-edit.html', context, )
 
 
 def delete_car(request, pk):

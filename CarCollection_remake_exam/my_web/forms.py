@@ -3,6 +3,7 @@ from django import forms
 from CarCollection_remake_exam.my_web.models import Profile, Car
 
 
+# Profile forms
 class ProfileBaseForm(forms.ModelForm):
     class Meta:
         model = Profile
@@ -42,3 +43,18 @@ class ProfileDeleteForm(ProfileBaseForm):
             Car.objects.all().delete()
 
         return self.instance
+
+
+# Car forms
+class CarBaseForm(forms.ModelForm):
+    class Meta:
+        model = Car
+        fields = '__all__'
+
+
+class CarCreateForm(CarBaseForm):
+    pass
+
+
+class CarEditForm(CarBaseForm):
+    pass
