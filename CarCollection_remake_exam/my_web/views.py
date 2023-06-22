@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from CarCollection_remake_exam.my_web.forms import ProfileCreateForm
+from CarCollection_remake_exam.my_web.forms import ProfileCreateForm, ProfileEditForm
 from CarCollection_remake_exam.my_web.models import Profile, Car
 
 
@@ -59,7 +59,18 @@ def details_profile(request):
 
 
 def edit_profile(request):
-    return render(request, 'profile/profile-edit.html')
+    profile = get_profile()
+    if request.method == 'GET':
+        form = ProfileEditForm(instance=profile)
+    else:
+        form = ProfileEditForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('details-profile')
+
+    context = {'form': form, }
+
+    return render(request, 'profile/profile-edit.html', context, )
 
 
 def delete_profile(request):
