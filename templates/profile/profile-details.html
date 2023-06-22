@@ -13,20 +13,28 @@
                     <img class="car-img" src="{% static 'images/default-profile.png' %}" alt='profile-image'/>
                 {% endif %}
 
-                <!-- user full name (if any) -->
-                <h1>Svetoslava Stoyanova</h1>
-                <!-- user username -->
-                <p class="description">Username: svetoslava</p>
-                <!-- user email -->
-                <p class="description">Email: svetoslava@gmail.com</p>
-                <!-- user age -->
-                <p class="description">Age: 30</p>
-                <!-- total price of all cars -->
-                <p class="description">Total price: 285.000</p>
-                <!-- Edit/Delete buttons -->
+                {% if profile.first_name and profile.last_name %}
+                    <h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
+                {% else %}
+
+                    {% if profile.first_name %}
+                        <h1>{{ profile.first_name }}</h1>
+                    {% endif %}
+
+                    {% if profile.last_name %}
+                        <h1>{{ profile.last_name }}</h1>
+                    {% endif %}
+
+                {% endif %}
+
+                <p class="description">Username: {{ profile.username }}</p>
+                <p class="description">Email: {{ profile.email }}</p>
+                <p class="description">Age: {{ profile.age }}</p>
+                <p class="description">Total price: {{ total_price|floatformat:3 }} $</p>
+
                 <div class="buttons">
-                    <a href="#" class="edit-button">Edit</a>
-                    <a href="#" class="delete-button">Delete</a>
+                    <a href="{% url 'edit-profile' %}" class="edit-button">Edit</a>
+                    <a href="{% url 'delete-profile' %}" class="delete-button">Delete</a>
                 </div>
             </div>
         </div>
