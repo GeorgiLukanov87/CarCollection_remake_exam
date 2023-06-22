@@ -15,13 +15,13 @@
         <h1><a class="index-navigation" href="{% url 'index' %}"><span>C</span>ARS <span>C</span>OLLECTION</a></h1>
         <nav>
 
-            <!-- if the user has not created a profile -->
-            <a href="{% url 'create-profile' %}">Create Profile</a>
-
-            <!-- if the user has created a profile -->
-            <a href="{% url 'catalogue' %}">Catalogue</a>
-            <a href="{% url 'create-car' %}">Create Car</a>
-            <a href="{% url 'details-profile' %}">Profile</a>
+            {% if not profile %}
+                <a href="{% url 'create-profile' %}">Create Profile</a>
+            {% else %}
+                <a href="{% url 'catalogue' %}">Catalogue</a>
+                <a href="{% url 'create-car' %}">Create Car</a>
+                <a href="{% url 'details-profile' %}">Profile</a>
+            {% endif %}
 
         </nav>
     </header>

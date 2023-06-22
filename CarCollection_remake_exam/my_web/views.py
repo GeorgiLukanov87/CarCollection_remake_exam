@@ -10,14 +10,13 @@ def get_profile():
 
 
 def index(request):
-    return render(request, 'common/index.html')
+    context = {'profile': get_profile()}
+    return render(request, 'common/index.html', context, )
 
 
 def catalogue(request):
     cars = Car.objects.all()
-
-    context = {'cars': cars, }
-
+    context = {'cars': cars, 'profile': get_profile()}
     return render(request, 'common/catalogue.html', context, )
 
 
@@ -30,14 +29,14 @@ def create_car(request):
             form.save()
             return redirect('catalogue')
 
-    context = {'form': form, }
+    context = {'form': form, 'profile': get_profile()}
 
     return render(request, 'car/car-create.html', context, )
 
 
 def details_car(request, pk):
     car = Car.objects.filter(pk=pk).get()
-    context = {'car': car, }
+    context = {'car': car, 'profile': get_profile()}
     return render(request, 'car/car-details.html', context, )
 
 
@@ -51,7 +50,7 @@ def edit_car(request, pk):
             form.save()
             return redirect('catalogue')
 
-    context = {'car': car, 'form': form, }
+    context = {'car': car, 'form': form, 'profile': get_profile()}
 
     return render(request, 'car/car-edit.html', context, )
 
@@ -66,7 +65,7 @@ def delete_car(request, pk):
             form.save()
             return redirect('catalogue')
 
-    context = {'form': form, 'car': car, }
+    context = {'form': form, 'car': car, 'profile': get_profile()}
 
     return render(request, 'car/car-delete.html', context, )
 
@@ -81,19 +80,18 @@ def create_profile(request):
             form.save()
             return redirect('index')
 
-    context = {'form': form, }
+    context = {'form': form, 'profile': get_profile()}
 
     return render(request, 'profile/profile-create.html', context, )
 
 
 def details_profile(request):
-    profile = get_profile()
     cars = Car.objects.all()
     total_price = 0
     if cars.count():
         total_price = sum([c.price for c in cars])
 
-    context = {'profile': profile, 'total_price': total_price, }
+    context = {'profile': get_profile(), 'total_price': total_price, }
 
     return render(request, 'profile/profile-details.html', context, )
 
@@ -108,7 +106,7 @@ def edit_profile(request):
             form.save()
             return redirect('details-profile')
 
-    context = {'form': form, }
+    context = {'form': form, 'profile': profile, }
 
     return render(request, 'profile/profile-edit.html', context, )
 
@@ -123,6 +121,6 @@ def delete_profile(request):
             form.save()
             return redirect('index')
 
-    context = {'form': form, }
+    context = {'form': form, 'profile': get_profile()}
 
     return render(request, 'profile/profile-delete.html', context, )
