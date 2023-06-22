@@ -13,7 +13,11 @@ def index(request):
 
 
 def catalogue(request):
-    return render(request, 'common/catalogue.html')
+    cars = Car.objects.all()
+
+    context = {'cars': cars, }
+
+    return render(request, 'common/catalogue.html', context, )
 
 
 def create_car(request):
@@ -32,6 +36,7 @@ def delete_car(request, pk):
     return render(request, 'car/car-delete.html')
 
 
+# Profile Views
 def create_profile(request):
     if request.method == 'GET':
         form = ProfileCreateForm()
