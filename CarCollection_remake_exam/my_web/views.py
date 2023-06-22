@@ -1,4 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+from CarCollection_remake_exam.my_web.forms import ProfileCreateForm
+from CarCollection_remake_exam.my_web.models import Profile, Car
+
+
+def get_profile():
+    return Profile.objects.first()
 
 
 def index(request):
@@ -26,7 +33,29 @@ def delete_car(request, pk):
 
 
 def create_profile(request):
-    return render(request, 'profile/profile-create.html')
+    if request.method == 'GET':
+        form = ProfileCreateForm()
+    else:
+        form = ProfileCreateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+
+    context = {'form': form, }
+
+    return render(request, 'profile/profile-create.html', context, )
+
+
+def details_profile(request):
+    profile = get_profile()
+    cars = Car.objects.all()
+    total_price = 0
+    if cars.count():
+        total_price = sum([c.price for c in cars])
+
+    context = {'profile': profile, 'total_price': total_price, }
+
+    return render(request, 'profile/profile-details.html', context, )
 
 
 def edit_profile(request):
@@ -35,7 +64,3 @@ def edit_profile(request):
 
 def delete_profile(request):
     return render(request, 'profile/profile-delete.html')
-
-
-def details_profile(request):
-    return render(request, 'profile/profile-details.html')
