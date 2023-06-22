@@ -1,6 +1,6 @@
 from django import forms
 
-from CarCollection_remake_exam.my_web.models import Profile
+from CarCollection_remake_exam.my_web.models import Profile, Car
 
 
 class ProfileBaseForm(forms.ModelForm):
@@ -22,7 +22,6 @@ class ProfileCreateForm(ProfileBaseForm):
     class Meta:
         model = Profile
         fields = ('username', 'email', 'age', 'password')
-        
         widgets = {
             'password': forms.PasswordInput(),
         }
@@ -30,3 +29,16 @@ class ProfileCreateForm(ProfileBaseForm):
 
 class ProfileEditForm(ProfileBaseForm):
     pass
+
+
+class ProfileDeleteForm(ProfileBaseForm):
+    class Meta:
+        model = Profile
+        fields = ()
+
+    def save(self, commit=True):
+        if commit:
+            self.instance.delete()
+            Car.objects.all().delete()
+
+        return self.instance
