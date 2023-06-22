@@ -10,13 +10,12 @@ def get_profile():
 
 
 def index(request):
-    context = {'profile': get_profile()}
-    return render(request, 'common/index.html', context, )
+    return render(request, 'common/index.html', )
 
 
 def catalogue(request):
     cars = Car.objects.all()
-    context = {'cars': cars, 'profile': get_profile()}
+    context = {'cars': cars, }
     return render(request, 'common/catalogue.html', context, )
 
 
@@ -29,14 +28,14 @@ def create_car(request):
             form.save()
             return redirect('catalogue')
 
-    context = {'form': form, 'profile': get_profile()}
+    context = {'form': form,}
 
     return render(request, 'car/car-create.html', context, )
 
 
 def details_car(request, pk):
     car = Car.objects.filter(pk=pk).get()
-    context = {'car': car, 'profile': get_profile()}
+    context = {'car': car, }
     return render(request, 'car/car-details.html', context, )
 
 
@@ -50,7 +49,7 @@ def edit_car(request, pk):
             form.save()
             return redirect('catalogue')
 
-    context = {'car': car, 'form': form, 'profile': get_profile()}
+    context = {'car': car, 'form': form, }
 
     return render(request, 'car/car-edit.html', context, )
 
@@ -65,7 +64,7 @@ def delete_car(request, pk):
             form.save()
             return redirect('catalogue')
 
-    context = {'form': form, 'car': car, 'profile': get_profile()}
+    context = {'form': form, 'car': car, }
 
     return render(request, 'car/car-delete.html', context, )
 
@@ -80,7 +79,7 @@ def create_profile(request):
             form.save()
             return redirect('index')
 
-    context = {'form': form, 'profile': get_profile()}
+    context = {'form': form, }
 
     return render(request, 'profile/profile-create.html', context, )
 
