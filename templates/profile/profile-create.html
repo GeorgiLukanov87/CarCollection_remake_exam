@@ -10,9 +10,25 @@
                 {{ form }}
                 {% csrf_token %}
 
+                <div>
+                    <input id="id_password" type="checkbox" onclick="toggleOnOff()">
+                    <span style="color: #00dc0c;font-weight: bold;">Show on/off</span>
+                </div>
+
                 <input class="btn submit" type="submit" value="Create Profile">
             </div>
         </form>
     </section>
+
+    <script>
+        function toggleOnOff() {
+            const x = document.getElementById("id_password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
 
 {% endblock %}
